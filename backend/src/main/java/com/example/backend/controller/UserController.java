@@ -23,10 +23,17 @@ public class UserController {
         return userService.findByUsername(username);
     }
 
+    @PutMapping("/update/{id}")
+    public User updateUser(@RequestBody User user,@PathVariable Long id) {
+        return userService.updateUser(user, id);
+    }
+    @DeleteMapping("/delete/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+    }
+
     @GetMapping()
     public List<User> getUsers() {
-        List<User> users = userService.getUsers();
-//        users.forEach(user -> System.out.println(user.getUsername()));
-        return users;
+        return userService.getUsers();
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -30,4 +31,22 @@ public class UserService {
 
     }
 
+    public User updateUser(User user, Long id) {
+
+
+        Optional<User> found = userRepository.findById(id);
+        if(found.isPresent())
+        {
+            User existingUser = found.get();
+            existingUser.setUsername(user.getUsername());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setPhoneNumber(user.getPhoneNumber());
+            return userRepository.save(existingUser);
+        }
+        else return null;
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
 }
