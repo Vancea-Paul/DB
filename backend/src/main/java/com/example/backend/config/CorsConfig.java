@@ -24,17 +24,9 @@ import static org.springframework.http.HttpMethod.PATCH;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
 
-/**
- * Configuration class for setting up CORS (Cross-Origin Resource Sharing) in the application.
- */
 @Configuration
 public class CorsConfig
 {
-    /**
-     * Creates a CorsFilter bean to handle CORS configuration.
-     *
-     * @return a CorsFilter configured with the specified CORS settings.
-     */
     @Bean
     public CorsFilter corsFilter()
     {

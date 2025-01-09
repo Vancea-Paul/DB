@@ -1,32 +1,28 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import UserService from '../services/UserService';
-import RegPhoto from "../../public/reg.jpg";
+import React, { useState } from 'react';
+import homePagePhoto from '../../public/homePage.jpg.jpg';
 
 const Register = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: '',
+        phoneNumber: '',
+    });
 
-    const handleRegister = async (e) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const user = { username, password, email, phoneNumber };
-        try {
-            await UserService.register(user);
-            alert('User registered successfully');
-            navigate('/login'); // Redirect to login page
-        } catch (error) {
-            console.error('There was an error registering the user!', error);
-        }
     };
 
     return (
         <div
             className="d-flex flex-column justify-content-center align-items-center"
             style={{
-                backgroundImage: `url(${RegPhoto})`,
+                backgroundImage: `url(${homePagePhoto})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 height: '100vh',
@@ -36,29 +32,18 @@ const Register = () => {
                 margin: 0,
             }}
         >
-            <div className="container">
+            <div className="container" style={{ maxWidth: '400px' }}>
                 <h2>Register</h2>
-                <form onSubmit={handleRegister}>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="username" className="form-label">Username</label>
                         <input
                             type="text"
                             className="form-control"
                             id="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="password" className="form-label">Password</label>
-                        <input
-                            type="password"
-                            className="form-control"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
+                            name="username"
+                            value={formData.username}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="mb-3">
@@ -67,9 +52,20 @@ const Register = () => {
                             type="email"
                             className="form-control"
                             id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="password" className="form-label">Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="mb-3">
@@ -78,9 +74,9 @@ const Register = () => {
                             type="text"
                             className="form-control"
                             id="phoneNumber"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                            required
+                            name="phoneNumber"
+                            value={formData.phoneNumber}
+                            onChange={handleChange}
                         />
                     </div>
                     <button type="submit" className="btn btn-primary">Register</button>

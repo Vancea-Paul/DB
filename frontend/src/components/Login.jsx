@@ -1,36 +1,26 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import loginPhoto from '../../public/lgin.png';
+import homePagePhoto from '../../public/homePage.jpg.jpg';
 
 const Login = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
-    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        username: '',
+        password: '',
+    });
 
-    const handleLogin = async (e) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.post('/api/login', { username, password });
-            if (response.data) {
-                setMessage('Successfully signed in!');
-                setTimeout(() => {
-                    navigate('/user-info');
-                }, 2000);
-            } else {
-                setMessage('Invalid username or password');
-            }
-        } catch (error) {
-            setMessage('An error occurred. Please try again.');
-        }
     };
 
     return (
         <div
             className="d-flex flex-column justify-content-center align-items-center"
             style={{
-                backgroundImage: `url(${loginPhoto})`,
+                backgroundImage: `url(${homePagePhoto})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 height: '100vh',
@@ -40,17 +30,18 @@ const Login = () => {
                 margin: 0,
             }}
         >
-            <div className="container">
+            <div className="container" style={{ maxWidth: '400px' }}>
                 <h2>Login</h2>
-                <form onSubmit={handleLogin}>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="username" className="form-label">Username</label>
                         <input
                             type="text"
                             className="form-control"
                             id="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            name="username"
+                            value={formData.username}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className="mb-3">
@@ -59,13 +50,13 @@ const Login = () => {
                             type="password"
                             className="form-control"
                             id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
                         />
                     </div>
                     <button type="submit" className="btn btn-primary">Login</button>
                 </form>
-                {message && <div className="alert alert-info mt-3">{message}</div>}
             </div>
         </div>
     );
