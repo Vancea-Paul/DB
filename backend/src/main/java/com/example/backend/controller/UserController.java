@@ -18,6 +18,10 @@ public class UserController {
         return userService.saveUser(user);
     }
 
+    @PostMapping("/login")
+    public User loginUser(@RequestBody User user) {
+        return userService.loginUser(user);
+    }
     @GetMapping("/{username}")
     public User getUser(@PathVariable String username) {
         return userService.findByUsername(username);

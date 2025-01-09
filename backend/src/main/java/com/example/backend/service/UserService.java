@@ -49,4 +49,12 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    public User loginUser(User user) {
+        User foundUser = userRepository.findByUsername(user.getUsername());
+        if (foundUser != null && foundUser.getPassword().equals(user.getPassword())) {
+            return foundUser;
+        }
+        return null;
+    }
 }
